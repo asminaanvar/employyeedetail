@@ -1,0 +1,53 @@
+body{
+	background-color: hsl(0, 8%, 3%);
+}
+.navbar {
+  height: 120px; /* Adjust the height based on your image height */
+  padding: 10px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+.navbar-brand img {
+  max-height: 100%; /* Adjust the max-width as needed */
+  width: auto;
+  }
+  /* For smaller screens (e.g., mobile) */
+  @media (max-width: 768px) {
+    .navbar-brand {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .navbar-brand img {
+      height: 40px; /* Adjust the height for smaller screens */
+    }
+}
+  
+.image-container {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .last-item a {
+    margin-right: 0;
+}
+.navbar-right .about-link {
+    float: right;
+}
+.navbar-text {
+  color: hsl(0, 0%, 100%); /* You can adjust the color as needed */
+  margin-left: 10px; /* Add some spacing between the "Logout" link and the greeting */
+}
+
+

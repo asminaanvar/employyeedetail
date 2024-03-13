@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% block content %}
+<h3 class="text-center m-4">Create</h3>
+{% if success %}
+<div class="alert alert-success" role="alert">A new user added successfully
+    <a href="{% url 'home' %}" class="alert-link">Go to Home</a>
+</div>
+{% else %}
+<div class="d-flex justify-content-center" >
+    <div class="col-6">
+        <div class="card border-secondary mb-3">
+            <div class="card-header">ADD</div>
+            <div class="card-body">
+                <form method="POST" action="{% url 'add'%}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit"  class="alert alert-primary">ADD</button>
+                    <a href="{% url 'home' %}" class="alert alert-success"> cancel</a>
+                </form>
+              
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

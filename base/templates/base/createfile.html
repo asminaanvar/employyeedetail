@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+{% block content %}
+   
+    <div class="container-fluid" style="margin-top: 50px;">  
+        <div class="col-md-offset-1 col-md-4">
+            <div class="alert alert-success" >
+                <a href="{% url 'home' %}" class="alert-link">Go to Home</a>
+            </div>
+            <h3 class="page-header text-center text-primary">Upload Files</h3>
+            <form action="{% url 'uploadfile' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>File Name:</label>
+                    {{form.file_name}}
+                </div>
+                <div class="form-group">
+                    <label>File:</label>
+                    {{form.file}}
+                </div>
+                <button type="submit" class="btn btn-danger pull-right">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+            <!-- Superuser view: Show all uploaded files -->
+            <h3 class="page-header text-primary text-center">All Uploaded Files (Superuser View)</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">S.No</th>
+                        <th>File Name</th>
+                        <th>File</th>                    
+                        <th>Delete</th>                    
+                    </tr>                    
+                </thead>
+                {% for data in mydata %}
+                    <tbody>
+                        <tr>
+                            <td style="text-align:center">{{forloop.counter}}</td>
+                            <td>{{data.file_name}}</td>
+                            <td><a href="{{data.my_file.url}}">{{data.my_file}}</a></td>
+                            <td style="text-align:center"><a href="{% url 'delete_file' data.id %}" class="btn btn-danger">Delete</a></td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+            {% else %}
+             <!-- Regular user view: Show their uploaded files -->
+            {% if mydata %}
+            <h3 class="page-header text-primary text-center">View File</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">S.No</th>
+                        <th>File Name</th>
+                        <th>File</th>                    
+                        <th>Delete</th>                    
+                    </tr>                    
+                </thead>
+                {% for data in mydata %}
+                    <tbody>
+                        <tr>
+                            <td style="text-align:center">{{forloop.counter}}</td>
+                            <td>{{data.file_name}}</td>
+                            <td><a href="{{data.my_file.url}}">{{data.my_file}}</a></td>
+                            <td style="text-align:center"><a href="{% url 'delete_file' data.id %}" class="btn btn-danger">Delete</a></td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>No files uploaded yet.</p>
+            {% endif %}
+            {% endif %}
+            {% else %}
+            <p>Please log in to upload files.</p>
+            {% endif %}
+
+        </div>
+    </div> 
+{% endblock %}

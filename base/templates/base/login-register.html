@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+{% block content %}
+<h3 class="text-center m-4">Login</h3>
+{% if page == 'login' %}
+<div class="d-flex justify-content-center" >
+    <div class="col-6">
+        <div class="card border-secondary mb-3">
+            <div class="card-header"></div>
+            <div class="card-body">
+                <form method="POST" action="{% url 'loginpage' %}">
+                    {% csrf_token %}
+                    <label for="username">username:</label>                    
+                    <input type="text" name="username" placeholder="Enter Username">
+                    <label for="password">PassWord:</label>
+                    <input type="password" name="password" placeholder="Enter password">
+                    {{ form.as_p }}
+                    <button type="submit"  class="btn btn-success">Login</button>
+                </form>
+                <p>Haven't singned up yet?</p> 
+                <a href="{% url 'register' %}">Sign up</a>                 
+             </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Register</button>
+    </form>
+    <p>Allready singned up?</p> 
+    <a href="{% url 'loginpage' %}">Login</a>                 
+</div>                   
+{% endif %}                    
+
+{% endblock %}

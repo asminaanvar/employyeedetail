@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% block content %}
+<h3 class="text-center m-4">UPDATE</h3>
+{% if success %}
+<div class="alert alert-success" role="alert">A new user updated successfully
+    <a href="{% url 'home' %}" class="alert-link">Go to Home</a>
+</div>
+{% else %}
+<div class="d-flex justify-content-center" >
+    <div class="col-6">
+        <div class="card border-secondary mb-3">
+            <div class="card-header">Update user</div>
+            <div class="card-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit"  class="alert alert-primary">update</button>
+                    <a href="{% url 'home' %}" class="alert alert-success"> cancel</a>
+                </form>
+              
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

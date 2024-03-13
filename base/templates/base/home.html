@@ -1,0 +1,101 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<h3 class="m-4">All RECORDS</h3>
+
+<a href="{% url 'createfile' %}" class="btn btn-info">CreateFolder</a>
+<div class="row"> 
+    <div class="col-12>
+        {% if Bidgely %}
+        
+        <div class="table-responsive">
+                  
+            <table class="table table-striped table-hover ">
+            
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>RollNo</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for bidg in Bidgely %}
+                    <tr>
+                        {% if request.user.is_superuser or bidg.user == request.user %}
+                        <td>{{bidg.name}}</td>
+                        <td>{{bidg.rollno}}</td>
+                        <td>{{bidg.age}}</td>
+                        <td>{{bidg.email}}</td>                                   
+                        <td>{{bidg.department}}</td>
+                         
+                        <td>
+                            <button type="button" class="btn btn-success me-1" href="{% url 'view' bidg.id %}" 
+                            data-bs-toggle="modal" data-bs-target="#Mymodal{{bidg.id}}">Info</button>
+                            
+                            <!-- Modal -view content -->
+                            <div class="modal" id="Mymodal{{bidg.id}}" data-bs-backdrop="static" aria-labelledby="Mymodallabel1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+                                      <h4 class="modal-title">Name:{{bidg.name}}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <ul class="list-unstyled">
+                                            <li>Name:<strong>{{bidg.name}}</strong></li>
+                                            <li>RollNo:<strong>{{bidg.rollno}}</strong></li>
+                                            <li>Age:<strong>{{bidg.age}}</strong></li>
+                                            <li>Email:<strong>{{bidg.email}}</strong></li>
+                                            <li>Department:<strong>{{bidg.department}}</strong></li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button> 
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                            <a class="btn btn-warning me-1" href="{% url 'edit' bidg.id %}">EDIT</a>
+                            
+                            <button type="button" class="btn btn-danger me-1" href="{% url 'delete' bidg.id %}" 
+                            data-bs-toggle="modal" data-bs-target="#delete{{bidg.id}}">Delete</button>
+                            <!--modal delete -content-->
+                            <div class="modal" id="delete{{bidg.id}}" data-bs-backdrop="static" aria-labelledby="Mymodallabel2" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+                                      <h4 class="modal-title">Name:{{bidg.name}}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                      <p>Are you sure you want to delete this user {{bidg.name}}?</p>  
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{% url 'delete' bidg.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="submit" class="btn btn-primary" value="Delete">
+                                        </form>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancel</button> 
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <h5 class="alert alert_primary ms-4 me-4 ">NO RECORDs</h5>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
